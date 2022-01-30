@@ -1,0 +1,39 @@
+@import "~font-awesome/css/font-awesome.css";
+
+.navbar {
+    padding: 0;
+    margin-bottom: 0;
+}
+.navbar-nav a.active {
+    background-color: #04AA6D;
+    color: #fff !important;
+}
+.navbar-nav a {
+    font-weight:500;
+}
+.right-icon {
+    float: right;
+    margin-top: 2px;
+}
+.btn-custom {
+    color: #fff;
+    background-color: #3289C8;
+}
+.btn-custom:hover {
+    color: #fff;
+    background-color: #266999;
+}
+.card-custom {
+    border-color: #3289C8;
+}
+.card-custom .card-header {
+    color: #fff;
+    background-color: #3289C8;
+}
+.mr-auto, .mx-auto {
+    margin-right: auto!important;
+}
+
+.btn-link {
+  text-decoration: none;
+}
