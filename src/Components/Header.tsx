@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => (
   <nav className="navbar navbar-expand-lg bg-light navbar-light">
-    <a className="navbar-brand" href="#">
+    <div className="navbar-brand">
       <img
         width="40"
         alt="React Logo"
         src="/logo192.png"
+        className="mx-1"
       />
-    </a>
+    </div>
     <div className="collapse navbar-collapse">
       <ul className="navbar-nav mr-auto">
         <li className="nav-item">
