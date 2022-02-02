@@ -1,17 +1,19 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import DashboardPage from "./Pages/DashboardPage";
-import SchedulePage from "./Pages/SchedulePage";
-import UserPage from "./Pages/UserPage";
+
+const DashboardPage = lazy(() => import("./Pages/DashboardPage"));
+const ScheduleRoute = lazy(() => import("./Routes/ScheduleRoute"));
+const UserPage = lazy(() => import("./Pages/UserPage"));
 
 const Main = () => (
     <React.Fragment>
-        <Routes>
-            <Route index element={<DashboardPage />}></Route>
-            <Route path="/dashboard/*" element={<DashboardPage/>}></Route>
-            <Route path="/users/*" element={<UserPage />}></Route>
-            <Route path="/schedules/" element={<SchedulePage/>}></Route>
-        </Routes>
+        <Suspense fallback={<p> Loading...</p>}>
+            <Routes>
+                <Route path="/dashboard/*" element={<DashboardPage/>}></Route>
+                <Route path="/users/*" element={<UserPage />}></Route>
+                <Route path="/schedules/*" element={<ScheduleRoute/>}></Route>
+            </Routes>
+        </Suspense>
     </React.Fragment>
 );
 

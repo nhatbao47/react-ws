@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Navigate } from "react-router-dom";
-import { fakeAuth } from "./Services/CommonService";
+import { fakeAuth } from "../Services/CommonService";
 
 class AuthorizedRoute extends Component {
     render(): React.ReactNode {

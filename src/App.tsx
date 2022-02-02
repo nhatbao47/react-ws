@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./style.css";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
-import AuthorizedRoute from "./AuthorizedRoute";
+import AuthorizedRoute from "./Routes/AuthorizedRoute";
 import Main from "./Main";
 import Header from "./Components/Header";
 
