@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Task, TaskState } from "../Models/Task";
 import { Radio, RadioGroup } from "react-radio-group";
+import configData from '../config.json';
 
 interface RadioValue {
   label: string;
@@ -10,8 +11,16 @@ interface RadioValue {
 }
 
 const TaskComposerPage = () => {
+  const url = configData.JSON_API_URL + 'tasks';
+  const newTask: Task = {
+    id: 0,
+    title: '',
+    description: '',
+    state: TaskState.New
+  };
   const [addNew, setAddNew] = useState(false);
-  const [task, setTask] = useState<Task>({} as Task);
+  const [task, setTask] = useState<Task>(newTask);
+  const navigate = useNavigate();
   const statusRadios: RadioValue[] = [
     {
       label: "New",
@@ -32,16 +41,28 @@ const TaskComposerPage = () => {
     if (parseInt(id ?? "") === 0) {
       setAddNew(true);
     } else {
-      axios.get(`http://localhost:3001/tasks/${id}`).then((res) => {
+      axios.get(`${url}/${id}`).then((res) => {
         setTask(res.data);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const goToDashboard = () => {
+    navigate('/dashboard');
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(task);
+    if (addNew) {
+      axios.post(url, task)
+        .then((res) => goToDashboard())
+        .catch((error) => console.log(error));
+    } else {
+      axios.put(`${url}/${task.id}`, task)
+      .then((res) => goToDashboard())
+      .catch((error) => console.log(error));
+    }
   };
 
   const handleInputChanged = (e: any, name = "") => {
@@ -162,12 +183,14 @@ const TaskComposerPage = () => {
                 >
                   <i className="fa fa-ban"></i> Cancel
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-danger btn-right"
-                >
-                  <i className="fa fa-trash"></i> Delete
-                </button>
+                {!addNew && (
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-danger btn-right"
+                  >
+                    <i className="fa fa-trash"></i> Delete
+                  </button>
+                )}
                 <button
                   type="submit"
                   className="btn btn-sm btn-primary btn-right"

@@ -1,15 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import configData from "../config.json";
 
 const ScheduleDetailPage = () => {
+  const url = configData.JSON_API_URL + 'schedules';
   const [schedule, setSchedule] = useState<any>(null);
   const { id } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/schedules/${id}`).then((res) => {
+    axios.get(`${url}/${id}`).then((res) => {
       setSchedule(res.data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!schedule) return <div>Sorry, but the schedule was not found</div>;
