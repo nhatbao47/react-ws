@@ -16,7 +16,7 @@ const EditableTasks = (props: EditableTasksProps) => {
         <ul className="list-group list-group-flush">
           {tasks.map((task: Task) => (
             <li key={task.id} className="list-group-item px-0">
-              <Link to={`/task/${task.id}`}>{task.title}</Link>
+              <Link to={`/dashboard/task/${task.id}`} className="task-link">{task.title}</Link>
             </li>
           ))}
           {footer}

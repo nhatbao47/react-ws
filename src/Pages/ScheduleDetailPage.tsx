@@ -10,7 +10,7 @@ const ScheduleDetailPage = () => {
     axios.get(`http://localhost:3001/schedules/${id}`).then((res) => {
       setSchedule(res.data);
     });
-  });
+  }, []);
 
   if (!schedule) return <div>Sorry, but the schedule was not found</div>;
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import EditableTasks from "./EditableTasks";
 
 const NewTasks = (props: any) => (
@@ -13,9 +14,9 @@ const NewTasks = (props: any) => (
     tasks={props.list}
     footer={
       <li className="list-group-item px-0">
-        <button className="btn btn-sm btn-primary">
+        <Link to="/dashboard/task/0" className="btn btn-sm btn-primary">
           <i className="fa fa-tasks"></i> Add
-        </button>
+        </Link>
       </li>
     }
   />
