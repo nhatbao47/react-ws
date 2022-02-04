@@ -7,7 +7,7 @@ const LoginPage = () => {
 
     function handleClick() {
         fakeAuth.isAuthenticated = true;
-        navigate('/');
+        navigate('/dashboard');
     }
 
     return (
