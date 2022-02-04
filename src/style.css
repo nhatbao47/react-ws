@@ -84,7 +84,7 @@
     border-right: solid 1px #dee2e6;
     border-bottom: solid 1px #dee2e6;
 }
-h6 {
+.tab-content h6 {
     margin-top: 6px;
     padding: 3px 6px;
     background-color: #d1d4d6;

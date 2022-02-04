@@ -2,6 +2,8 @@ import axios from "axios";
 import React from "react";
 import UserBox from "../Components/UserBox";
 import { User } from "../Models/User";
+import configData from '../config.json';
+import NewUser from "../Components/NewUser";
 
 interface UserPageState {
   newUserVisible: boolean;
@@ -9,6 +11,7 @@ interface UserPageState {
 }
 
 class UserPage extends React.Component<any, UserPageState> {
+  private url = configData.JSON_API_URL + "users";
   constructor(props: any) {
     super(props);
     this.state = {
@@ -18,13 +21,33 @@ class UserPage extends React.Component<any, UserPageState> {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:3001/users`).then((res) => {
-      const users = res.data;
-      let newState = { ...this.state };
-      newState.users = users;
-      this.setState(newState);
+    this.loadUsers();
+  }
+
+  loadUsers = () => {
+    axios.get(this.url).then((res) => {
+      this.setState({
+        users: res.data
+      })
     });
   }
+
+  handleNewUserVisibility = (visible: boolean) => {
+    this.setState({
+      newUserVisible: visible
+    });
+  }
+
+  handleUserAddNew = (newUser: User) => {
+    axios.post(this.url, newUser)
+      .then(() => {
+        this.handleNewUserVisibility(false);
+        this.loadUsers();
+      })
+      .catch((error) => console.log(error));
+  }
+
+  handleUserDelete = () => this.loadUsers();
 
   render(): React.ReactNode {
     const { newUserVisible, users } = this.state;
@@ -33,23 +56,23 @@ class UserPage extends React.Component<any, UserPageState> {
       <React.Fragment>
         <div className="button-group">
           {!newUserVisible && (
-            <button type="button" className="btn btn-sm btn-custom">
+            <button type="button" className="btn btn-sm btn-custom" onClick={() => this.handleNewUserVisibility(true)}>
               <i className="fa fa-user-plus"></i> Add
             </button>
           )}
           {newUserVisible && (
-            <button type="button" className="btn btn-sm btn-danger">
+            <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleNewUserVisibility(false)}>
               <i className="fa fa-ban"></i> Cancel
             </button>
           )}
         </div>
         <div className="row">
-          {newUserVisible && <div className="col-md-3">New-User</div>}
           {users.map((user: User) => (
-            <div className="col-md-3">
-              <UserBox item={user} />
+            <div key={user.id} className="col-md-3">
+              <UserBox item={user} onDelete={() => this.handleUserDelete()} />
             </div>
           ))}
+        { newUserVisible && <div className="col-md-3" > <NewUser onAddNew={(e: any) => this.handleUserAddNew(e)}/></div>}
         </div>
       </React.Fragment>
     );
