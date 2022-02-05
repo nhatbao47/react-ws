@@ -21,10 +21,6 @@ class UserPage extends React.Component<any, UserPageState> {
   }
 
   componentDidMount() {
-    this.loadUsers();
-  }
-
-  loadUsers = () => {
     axios.get(this.url).then((res) => {
       this.setState({
         users: res.data
@@ -40,14 +36,23 @@ class UserPage extends React.Component<any, UserPageState> {
 
   handleUserAddNew = (newUser: User) => {
     axios.post(this.url, newUser)
-      .then(() => {
+      .then((res) => {
         this.handleNewUserVisibility(false);
-        this.loadUsers();
+        let users = this.state.users;
+        users.push(res.data);
+        this.setState({
+          users: users
+        });
       })
       .catch((error) => console.log(error));
   }
 
-  handleUserDelete = () => this.loadUsers();
+  handleUserDelete = (id: number) => {
+    let users = this.state.users.filter((user) => user.id !== id);
+    this.setState({
+      users: users
+    });
+  }
 
   render(): React.ReactNode {
     const { newUserVisible, users } = this.state;
@@ -69,7 +74,7 @@ class UserPage extends React.Component<any, UserPageState> {
         <div className="row">
           {users.map((user: User) => (
             <div key={user.id} className="col-md-3">
-              <UserBox item={user} onDelete={() => this.handleUserDelete()} />
+              <UserBox item={user} onDelete={() => this.handleUserDelete(user.id)} />
             </div>
           ))}
         { newUserVisible && <div className="col-md-3" > <NewUser onAddNew={(e: any) => this.handleUserAddNew(e)}/></div>}

@@ -1,0 +1,24 @@
+.btn {
+    margin-right: 8px;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-group.required .col-form-label:after {
+    content:"*";
+    color:red;
+}
+.input-group-append {
+    margin-left: -1px;
+}
+.input-group-append {
+    display: flex;
+}
+.input-group>.input-group-append>.btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.react-time-picker__wrapper {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem;
+}
