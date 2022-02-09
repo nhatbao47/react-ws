@@ -1,3 +1,4 @@
 export const fakeAuth = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    username: ''
 };
