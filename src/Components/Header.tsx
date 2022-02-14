@@ -1,4 +1,5 @@
 import React from "react";
+import { Dropdown } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { fakeAuth } from "../Services/CommonService";
 
@@ -40,27 +41,27 @@ const Header = () => {
             </NavLink>
           </li>
         </ul>
-        <ul className="nav navbar-nav mr-3">
-          {isAuthenticated && (
-            <li className="nav-item dropdown">
-              <div className="d-inline-block">
-                <button className="btn btn-link" id="dropdownMenu">
-                  <i className="fa fa-user-circle-o" aria-hidden="true"></i> Username: {username}
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenu">
-                  <button className="dropdown-item" onClick={() => handleLogout()}>Log out</button>
-                </div>
-              </div>
-            </li>
-          )}
-          {!isAuthenticated && (
+        {isAuthenticated && (
+          <Dropdown className="user-dropdown">
+            <Dropdown.Toggle id="dropdown">
+              <i className="fa fa-user-circle-o" aria-hidden="true"></i> Username: {username}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleLogout()}>
+                Log out
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
+        {!isAuthenticated && (
+          <ul className="nav navbar-nav login-nav-item">
             <li className="nav-item">
               <NavLink to="/login" className="nav-link">
                 <i className="fa fa-sign-in" aria-hidden="true"></i> Login
               </NavLink>
             </li>
-          )}
-        </ul>
+          </ul>
+        )}
       </div>
     </nav>
   );

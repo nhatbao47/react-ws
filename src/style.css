@@ -93,3 +93,11 @@
 input[type='text'], textarea {
     border-left-width: 3px;
 }
+
+.login-nav-item {
+    margin-right: 4px;
+}
+
+.user-dropdown {
+    margin-right: 4px;
+}
