@@ -4,9 +4,11 @@ import CompletedTasks from "../Components/CompletedTasks";
 import InprogressTasks from "../Components/InprogressTasks";
 import NewTasks from "../Components/NewTasks";
 import { TaskState } from "../Models/Task";
+import configData from '../config.json';
 import "./DashboardPage.css";
 
 class DashboardPage extends React.Component<any, any> {
+  private url = configData.JSON_API_URL + 'tasks';
   constructor(props: any) {
     super(props);
     this.state = {
@@ -15,7 +17,7 @@ class DashboardPage extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:3001/tasks`).then((res) => {
+    axios.get(this.url).then((res) => {
       const tasks = res.data;
       this.setState({ tasks: tasks });
     });
