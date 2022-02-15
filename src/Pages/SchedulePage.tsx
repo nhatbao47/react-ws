@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import ConfirmationDialog from "../Components/ConfirmationDialog";
 import configData from '../config.json';
 import { Schedule } from "../Models/Schedule";
+import { formatDate } from "../Services/CommonService";
 
 interface SchedulePageState {
   schedules: Schedule[],
   showDialog: boolean,
-  selectedSchedule: Schedule
+  selectedSchedule: Schedule,
+  userFilter: boolean
 }
 
 class SchedulePage extends React.Component<any, SchedulePageState> {
@@ -18,15 +20,30 @@ class SchedulePage extends React.Component<any, SchedulePageState> {
     this.state = {
       schedules: [],
       showDialog: false,
-      selectedSchedule: {} as Schedule
+      selectedSchedule: {} as Schedule,
+      userFilter: false
     };
   }
 
   componentDidMount() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const userId = parseInt(queryParams.get('user') ?? '0');
+    this.setState({
+      userFilter: userId > 0
+    });
+    this.loadSchedules(userId);
+  }
+
+  loadSchedules(userId = 0) {
     axios.get(this.url).then((res) => {
-      const schedules = res.data;
+      let schedules = res.data as Schedule[];
+
+      if (schedules.length > 0 && this.state.userFilter) {
+        schedules = schedules.filter((schedule) => +schedule.userId === userId);
+      }
+
       this.setState({
-        schedules: schedules,
+        schedules: schedules
       });
     });
   }
@@ -58,36 +75,32 @@ class SchedulePage extends React.Component<any, SchedulePageState> {
       .catch((error) => console.log(error));
   }
 
+  handleFilterClear = () => {
+    this.setState({
+      userFilter: false
+    });
+    this.loadSchedules();
+    window.history.pushState({}, '', '/schedules');
+  }
+
   getShortDate(date: any): string {
     const newDate = new Date(date);
     return newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear();
-  } 
-
-  formatDate = (date: any) => {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [day, month, year].join('/');
-}
+  }
 
   render(): React.ReactNode {
-    const { schedules, showDialog, selectedSchedule } = this.state;
+    const { schedules, showDialog, selectedSchedule, userFilter } = this.state;
     return (
       <React.Fragment>
         <div className="button-group mb-2">
           <Link to="/schedules/0/edit" className="btn btn-sm btn-custom">
             <i className="fa fa-calendar-o"></i> Add
           </Link>
-          <button type="button" className="btn btn-sm btn-outline-secondary">
+          {userFilter && (
+            <button className="btn btn-sm btn-outline-secondary" onClick={() => this.handleFilterClear()}>
             <i className="fa fa-eraser"></i> Clear filter
           </button>
+          )}
         </div>
         <table className="table table-striped">
           <thead>
@@ -120,7 +133,7 @@ class SchedulePage extends React.Component<any, SchedulePageState> {
                 <td>{schedule.creator}</td>
                 <td>{schedule.description}</td>
                 <td>{schedule.location}</td>
-                <td>{this.formatDate(schedule.date)}</td>
+                <td>{formatDate(schedule.date)}</td>
                 <td>{schedule.startTime} ~ {schedule.endTime}</td>
                 <td>
                   <Link

@@ -3,6 +3,7 @@ import React from "react";
 import { User } from "../Models/User";
 import configData from '../config.json';
 import ConfirmationDialog from "./ConfirmationDialog";
+import { Link } from "react-router-dom";
 
 interface UserBoxProps {
   item: User,
@@ -117,9 +118,9 @@ class UserBox extends React.Component<UserBoxProps, UserBoxState> {
               />
             )}
             <p className="mt-3 mb-2">
-              <button className="btn btn-sm btn-custom">
-                <i className="fa fa-calendar-check-o"></i> Schedules
-              </button>
+              <Link to={`/schedules?user=${item.id}`} className="btn btn-sm btn-custom">
+              <i className="fa fa-calendar-check-o"></i> Schedules
+              </Link>
             </p>
           </div>
           <div className="card-footer text-center">

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import configData from '../config.json';
 import { Schedule } from "../Models/Schedule";
 import { User } from "../Models/User";
@@ -14,7 +14,6 @@ const ScheduleEditPage = () => {
   const [addNew, setAddNew] = useState(false);
   const [schedule, setSchedule] = useState<Schedule>({} as Schedule);
   const [users, setUsers] = useState<User[]>([] as any);
-  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -36,7 +35,7 @@ const ScheduleEditPage = () => {
   }, []);
 
   const goToSchedules = () => {
-    navigate('/schedules');
+    window.history.back();
   };
 
   const handleSubmit = (e: any) => {

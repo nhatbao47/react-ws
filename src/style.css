@@ -94,10 +94,12 @@ input[type='text'], textarea {
     border-left-width: 3px;
 }
 
-.login-nav-item {
+.login-nav-item, .user-dropdown {
     margin-right: 4px;
 }
 
-.user-dropdown {
-    margin-right: 4px;
+.user-dropdown .btn-primary.dropdown-toggle {
+    color: #0a58ca;
+    background-color: inherit;
+    border-width: 0;
 }

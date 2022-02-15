@@ -3,16 +3,20 @@ import React from "react";
 import CompletedTasks from "../Components/CompletedTasks";
 import InprogressTasks from "../Components/InprogressTasks";
 import NewTasks from "../Components/NewTasks";
-import { TaskState } from "../Models/Task";
+import { Task, TaskState } from "../Models/Task";
 import configData from '../config.json';
 import "./DashboardPage.css";
 
-class DashboardPage extends React.Component<any, any> {
+interface DashboardPageState {
+  tasks: Task[]
+}
+
+class DashboardPage extends React.Component<any, DashboardPageState> {
   private url = configData.JSON_API_URL + 'tasks';
   constructor(props: any) {
     super(props);
     this.state = {
-      tasks: [],
+      tasks: [] as Task[],
     };
   }
 
@@ -23,8 +27,8 @@ class DashboardPage extends React.Component<any, any> {
     });
   }
 
-  filterTasks(tasks: any[], state: TaskState): any[] {
-	  return tasks.filter((task: any) => task.state === state);
+  filterTasks(tasks: Task[], state: TaskState): Task[] {
+	  return tasks.filter((task: Task) => task.state === state);
   }
 
   render(): React.ReactNode {

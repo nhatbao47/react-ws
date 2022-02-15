@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import configData from "../config.json";
+import { formatDate } from "../Services/CommonService";
 
 const ScheduleDetailPage = () => {
   const url = configData.JSON_API_URL + 'schedules';
@@ -40,17 +41,15 @@ const ScheduleDetailPage = () => {
         <div className="row">
           <label className="col-md-2">Date time:</label>
           <div className="col-md-10">
-            {schedule.date} {schedule.startTime.hour}:
-            {schedule.startTime.minute} ~ {schedule.endTime.hour}:
-            {schedule.endTime.minute}
+            {formatDate(schedule.date)} {schedule.startTime} ~ {schedule.endTime}
           </div>
         </div>
         <div className="row">
           <label className="col-md-2"></label>
           <div className="col-md-10">
-            <Link to="/schedules" className="btn btn-sm btn-outline-primary">
+            <button className="btn btn-sm btn-outline-primary" onClick={() => window.history.back()}>
               <i className="fa fa-arrow-circle-o-left"></i> Back
-            </Link>
+            </button>
           </div>
         </div>
       </div>
