@@ -40,7 +40,6 @@ const LoginPage = () => {
                             </div>
                         )}
                         <button type="submit">Login</button>
-                        <p className="hint">Test user: <i>admin/123456</i></p>
                     </div>
                 </form>
             </div>
