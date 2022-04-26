@@ -12,7 +12,7 @@ const LoginPage = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        if (username === adminUser && password === '123456') {
+        if (username === adminUser && password === 'D0tnet@22') {
             fakeAuth.isAuthenticated = true;
             fakeAuth.username = adminUser;
             navigate('/dashboard');
